@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import type { MetaFunction } from "remix";
 
-import styles from "../styles/index.css";
+import styles from "../styles/routes/index.css";
 
 import type { LinksFunction } from "remix";
 

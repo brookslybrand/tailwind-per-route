@@ -6,7 +6,7 @@ import { APP_BAR_HEIGHT } from "../components/nav-bar";
 
 import type { LoaderFunction } from "remix";
 
-import styles from "../styles/team.css";
+import styles from "../styles/routes/team.css";
 
 import type { LinksFunction } from "remix";
 

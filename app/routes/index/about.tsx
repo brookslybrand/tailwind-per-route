@@ -1,6 +1,6 @@
 import type { MetaFunction } from "remix";
 
-import styles from "../styles/index/about.css";
+import styles from "../../styles/routes/index/about.css";
 
 import type { LinksFunction } from "remix";
 

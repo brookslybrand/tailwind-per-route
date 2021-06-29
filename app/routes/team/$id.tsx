@@ -5,6 +5,14 @@ import { baseURL } from "../team";
 import type { MetaFunction } from "remix";
 import type { TeamMember } from "../team";
 
+import styles from "../../styles/routes/team/$id.css";
+
+import type { LinksFunction } from "remix";
+
+export let links: LinksFunction = () => {
+  return [{ rel: "stylesheet", href: styles }];
+};
+
 export let meta: MetaFunction = ({ data }) => {
   const name = isTeamMember(data) ? data.name : "Not Found";
   return {

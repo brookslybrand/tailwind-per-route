@@ -18,7 +18,7 @@ function spawnTailwind(pathName) {
       "-i",
       `${stylesPath}/tailwind/route.css`,
       "-o",
-      `"${stylesPath}/${cssPathName}"`,
+      `"${stylesPath}/routes/${cssPathName}"`,
       "-w",
       `--purge="${routesPath}/${pathName}"`,
       "--jit",

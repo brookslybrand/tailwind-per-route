@@ -1,3 +1,11 @@
+import styles from "../../styles/routes/team/index.css";
+
+import type { LinksFunction } from "remix";
+
+export let links: LinksFunction = () => {
+  return [{ rel: "stylesheet", href: styles }];
+};
+
 export let meta = () => {
   return {
     title: "Team",

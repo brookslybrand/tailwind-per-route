@@ -1,3 +1,11 @@
+import styles from "../../styles/routes/index/index.css";
+
+import type { LinksFunction } from "remix";
+
+export let links: LinksFunction = () => {
+  return [{ rel: "stylesheet", href: styles }];
+};
+
 export default function Index() {
   return (
     <>
