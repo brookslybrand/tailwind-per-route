@@ -1,5 +1,13 @@
 import type { MetaFunction } from "remix";
 
+import styles from "../styles/index/about.css";
+
+import type { LinksFunction } from "remix";
+
+export let links: LinksFunction = () => {
+  return [{ rel: "stylesheet", href: styles }];
+};
+
 export let meta: MetaFunction = () => {
   return {
     title: "About",

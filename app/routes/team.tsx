@@ -6,6 +6,14 @@ import { APP_BAR_HEIGHT } from "../components/nav-bar";
 
 import type { LoaderFunction } from "remix";
 
+import styles from "../styles/team.css";
+
+import type { LinksFunction } from "remix";
+
+export let links: LinksFunction = () => {
+  return [{ rel: "stylesheet", href: styles }];
+};
+
 // This API comes from the free "Learn GraphQL with Apollo" tutorials
 export const baseURL = `https://odyssey-lift-off-rest-api.herokuapp.com`;
 

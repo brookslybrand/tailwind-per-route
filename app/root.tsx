@@ -2,12 +2,12 @@ import { Meta, Links, Scripts, LiveReload } from "remix";
 import { Outlet } from "react-router-dom";
 import NavBar from "./components/nav-bar";
 
-import tailwindUrl from "./styles/app.css";
+import styles from "./styles/root.css";
 
 import type { LinksFunction } from "remix";
 
 export let links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: tailwindUrl }];
+  return [{ rel: "stylesheet", href: styles }];
 };
 
 function Document({ children }: { children: React.ReactNode }) {
