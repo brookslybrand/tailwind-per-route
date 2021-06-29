@@ -6,6 +6,17 @@ let appPath = path.join(__dirname, "../app");
 let routesPath = path.join(appPath, "routes");
 let stylesPath = path.join(appPath, "styles");
 
+function createTailwindArgs(input, output, purgePath) {
+  let base = ["-i", input, "-o", output, `--purge="${purgePath}"`, "--jit"];
+  if (process.env.NODE_ENV === "development") {
+    base.push("--watch");
+  } else {
+    base.push("--minify");
+  }
+
+  return base;
+}
+
 function spawnTailwind(pathName) {
   // remove the filename
   cssPathName = `${
@@ -14,15 +25,11 @@ function spawnTailwind(pathName) {
 
   let tw = spawn(
     "tailwindcss",
-    [
-      "-i",
+    createTailwindArgs(
       `${stylesPath}/tailwind/route.css`,
-      "-o",
       `"${stylesPath}/routes/${cssPathName}"`,
-      "-w",
-      `--purge="${routesPath}/${pathName}"`,
-      "--jit",
-    ],
+      `${routesPath}/${pathName}`
+    ),
     { shell: true }
   );
 
@@ -65,15 +72,11 @@ function spawnFilesInDirectory(directoryPath = routesPath) {
 function spawnBaseStyles() {
   let tw = spawn(
     "tailwindcss",
-    [
-      "-i",
+    createTailwindArgs(
       `${stylesPath}/tailwind/base.css`,
-      "-o",
       `${stylesPath}/root.css`,
-      "-w",
-      `--purge="${appPath}/root.tsx"`,
-      "--jit",
-    ],
+      `${appPath}/root.tsx`
+    ),
     { shell: true }
   );
 

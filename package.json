@@ -4,11 +4,12 @@
   "description": "",
   "license": "",
   "scripts": {
-    "watch:css": "node scripts/styles.js",
+    "watch:css": "NODE_ENV=development node scripts/styles.js",
+    "build:css": "NODE_ENV=production node scripts/styles.js",
     "remix:run": "remix run",
     "dev": "npm-run-all --parallel watch:css remix:run",
     "build": "npm run build:css && remix build",
-    "start": "vercel dev"
+    "start": "remix-serve build"
   },
   "dependencies": {
     "@remix-run/node": "^0.17.5",
