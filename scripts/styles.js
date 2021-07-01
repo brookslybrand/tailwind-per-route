@@ -18,7 +18,10 @@ async function generateStyles() {
 
   if (process.env.NODE_ENV) {
     await Promise.all([basePromise, routesPromise]);
-    purgeFinalCss();
+    await purgeFinalCss();
+    console.log();
+    console.log("all css has been successfully purged");
+    console.log();
   }
 }
 
@@ -93,23 +96,31 @@ function promisifyChildProcess(childProcess) {
   });
 }
 
-function purgeFinalCss(directoryPath = routesPath) {
-  readdir(directoryPath, { withFileTypes: true }).then((files) => {
-    for (let file of files) {
-      if (file.isDirectory()) {
-        purgeFinalCss(`${directoryPath}/${file.name}`);
-      } else {
-        // find the relative path of the route from the base of the routes path
-        // removing the first / if one exists and escaping all dollar signs
-        let root = directoryPath.replace(new RegExp(`${routesPath}\/?`), "");
+async function purgeFinalCss(directoryPath = routesPath) {
+  let files = await readdir(directoryPath, { withFileTypes: true });
 
-        let outFile = `${stylesPath}/routes${
-          root ? "/" : ""
-        }${root}/${cssifyFileName(file.name)}`;
-        purgeAncestorClasses(generateAncestorPathNames(root), outFile);
-      }
+  let promises = [];
+  for (let file of files) {
+    if (file.isDirectory()) {
+      let directoryPromise = purgeFinalCss(`${directoryPath}/${file.name}`);
+      promises.push(directoryPromise);
+    } else {
+      // find the relative path of the route from the base of the routes path
+      // removing the first / if one exists and escaping all dollar signs
+      let root = directoryPath.replace(new RegExp(`${routesPath}\/?`), "");
+
+      let outFile = `${stylesPath}/routes${
+        root ? "/" : ""
+      }${root}/${cssifyFileName(file.name)}`;
+      let filePromise = purgeAncestorClasses(
+        generateAncestorPathNames(root),
+        outFile
+      );
+      promises.push(filePromise);
     }
-  });
+  }
+
+  return Promise.all(promises);
 }
 
 function cssifyFileName(fileName) {
@@ -159,25 +170,21 @@ async function purgeAncestorClasses(purgeFiles, outFile) {
     }
   }
 
-  writeFile(outFile, newFile);
+  return writeFile(outFile, newFile);
 }
 
 function generateAncestorPathNames(pathName) {
-  let pathNames = [`${stylesPath}/root.css`];
+  let pathNames = [`${appPath}/root.{js,jsx,ts,tsx}`];
   if (pathName !== "") {
     let segments = pathName.split("/");
     // generate the path names for all of the potential parent css files
     // skipping files that don't exist
     for (let i = 0; i < segments.length; i++) {
-      let path = `${stylesPath}/routes/${segments
+      let path = `${routesPath}/${segments
         .slice(0, i + 1)
-        .join("/")}.css`;
+        .join("/")}.{js,jsx,ts,tsx}`;
 
-      exists(path, (fileExists) => {
-        if (fileExists) {
-          pathNames.push(path);
-        }
-      });
+      pathNames.push(path);
     }
   }
   return pathNames;
