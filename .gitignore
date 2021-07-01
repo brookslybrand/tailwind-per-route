@@ -1,9 +1,11 @@
 node_modules
 
 /.cache
+/server/build
 /public/build
-/build
 
 # generated styles
 app/styles/routes
 app/styles/root.css
+
+.vercel
