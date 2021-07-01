@@ -135,7 +135,8 @@ function spawnBaseStyles() {
     createTailwindArgs(
       `${stylesPath}/tailwind/base.css`,
       `${stylesPath}/root.css`,
-      `${appPath}/root.tsx`
+      // add all of the components styles as well
+      `${appPath}/root.tsx,${appPath}/components/**/*.{js,jsx,ts,tsx}`
     ),
     { shell: true }
   );
